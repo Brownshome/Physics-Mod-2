@@ -1,0 +1,8 @@
+{
+	"parent": "block/orientable",
+	"textures": {
+		"top": "phyicsMod:blocks/thruster_side",
+		"front": "phyicsMod:blocks/thruster_front",
+		"side": "phyicsMod:blocks/thruster_side"
+	}
+}

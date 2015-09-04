@@ -1,0 +1,10 @@
+[
+{
+  "modid": "physicsMod",
+  "name": "Physics Mod",
+  "description": "Stops those pesky floating blocks.",
+  "mcversion": "${mcversion}",
+  "authorList": ["James Brown (Brownshome)"],
+  "credits": "Forge team, Archemedies Ships and JBullet."
+}
+]

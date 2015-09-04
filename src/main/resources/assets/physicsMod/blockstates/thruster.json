@@ -1,0 +1,8 @@
+{
+	"variants": {
+		"facing=north": { "model": "physicsMod:thruster" },
+		"facing=south": { "model": "physicsMod:thruster", "y": 180 },
+		"facing=west":  { "model": "physicsMod:thruster", "y": 270 },
+		"facing=east":  { "model": "physicsMod:thruster", "y": 90 }
+	}
+}
