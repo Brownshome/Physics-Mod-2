@@ -303,13 +303,14 @@ public interface ISegment {
 		Transform t = new Transform();
 		t.setIdentity();
 		t.origin.set(x, y, z);
+		t.basis.rotY((float) Math.PI / 2);
 		
 		RigidBody b = new RigidBody(1f, new DefaultMotionState(t), shape, inertia);
 		b.setSleepingThresholds(0, 0);
 
 		return b;
 	}
-	
+
 	static float BLOCK_INERTIA = 1 / 6f;
 	
 	public default void recalculateInertia(List<BlockPos> positions, float[] mass) {
@@ -411,5 +412,24 @@ public interface ISegment {
 	/** Used to find the server save file */
 	public int getIDNumber();
 
-	public abstract DynamicsWorld getBulletWorld();
+	public DynamicsWorld getBulletWorld();
+
+	public default void addForce(BlockPos pos, Vector3f force) {
+		RigidBody body = getRigidBody();
+		DefaultMotionState motionState = (DefaultMotionState) body.getMotionState();
+		Vector3f COM = motionState.centerOfMassOffset.origin;
+		
+		Transform trans = body.getWorldTransform(new Transform());
+		
+		Vector3f p = new Vector3f(COM);
+		p.x += pos.getX() + .5f;
+		p.y += pos.getY() + .5f;
+		p.z += pos.getZ() + .5f;
+		
+		trans.basis.transform(p);
+		trans.basis.transform(force);
+		
+		force.scale(0.05f); //1 divided by twenty
+		getRigidBody().applyImpulse(force, p);
+	};
 }

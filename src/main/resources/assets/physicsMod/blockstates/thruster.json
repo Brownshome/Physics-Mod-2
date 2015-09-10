@@ -1,8 +1,15 @@
 {
 	"variants": {
-		"facing=north": { "model": "physicsMod:thruster" },
-		"facing=south": { "model": "physicsMod:thruster", "y": 180 },
-		"facing=west":  { "model": "physicsMod:thruster", "y": 270 },
-		"facing=east":  { "model": "physicsMod:thruster", "y": 90 }
+		"facing=north,triggered=true": { "model": "physicsmod:thruster_on" },
+		"facing=south,triggered=true": { "model": "physicsmod:thruster_on", "y": 180 },
+		"facing=west,triggered=true":  { "model": "physicsmod:thruster_on", "y": 270 },
+		"facing=east,triggered=true":  { "model": "physicsmod:thruster_on", "y": 90 },
+		
+		"facing=north,triggered=false": { "model": "physicsmod:thruster_off" },
+		"facing=south,triggered=false": { "model": "physicsmod:thruster_off", "y": 180 },
+		"facing=west,triggered=false":  { "model": "physicsmod:thruster_off", "y": 270 },
+		"facing=east,triggered=false":  { "model": "physicsmod:thruster_off", "y": 90 },
+		
+		"inventory": { "model": "physicsmod:thruster_off" }
 	}
 }

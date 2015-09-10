@@ -1,5 +1,5 @@
 {
-	"parent": "phyicsMod:block/thruster",
+	"parent": "physicsMod:block/thruster_off",
 	"display": {
 		"thirdperson": {
 			"rotation": [ 10, -45, 170 ],

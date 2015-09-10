@@ -51,7 +51,7 @@ public class SegmentWorldClient extends WorldClient implements ISegment {
 	public static float POSITION_SNAP_THRESH = Float.MAX_VALUE;
 	public static float ORIENTATION_SNAP_THRESH = Float.MAX_VALUE;
 	
-	public static int FRAMES_TO_ADJUST = 50;
+	public static int FRAMES_TO_ADJUST = 10;
 	
 	static Map<Integer, SegmentWorldClient> WORLDS = new HashMap<>();
 	public static Map<Integer, DynamicsWorld> bulletWorlds = new HashMap<>();
@@ -67,9 +67,33 @@ public class SegmentWorldClient extends WorldClient implements ISegment {
 		double dist = Minecraft.getMinecraft().playerController.getBlockReachDistance();
 		Vec3 to = eyePos.addVector(lookVec.xCoord * dist, lookVec.yCoord * dist, lookVec.zCoord * dist);
 
+		double min = Double.POSITIVE_INFINITY;
+		SegmentWorldClient hitWorld = null;
+		
+		if(Minecraft.getMinecraft().objectMouseOver != null && Minecraft.getMinecraft().objectMouseOver.typeOfHit != MovingObjectType.MISS)
+			min = Minecraft.getMinecraft().objectMouseOver.hitVec.squareDistanceTo(eyePos);
+		
 		for(SegmentWorldClient world : getWorlds()) {
+			Vec3 e = world.worldToSeg(eyePos);
+			
 			world.tick();
 			world.rayTrace = world.rayTraceBlocks(world.worldToSeg(eyePos), world.worldToSeg(to), false, false, true);
+			
+			if(world.rayTrace.typeOfHit == MovingObjectType.BLOCK) {
+				double d = e.squareDistanceTo(world.rayTrace.hitVec);
+			
+				if(d < min) {
+					hitWorld = world;
+					min = d;
+				}
+			}
+			
+			world.rayTrace.typeOfHit = MovingObjectType.MISS;
+		}
+		
+		if(hitWorld != null) {
+			Minecraft.getMinecraft().objectMouseOver.typeOfHit = MovingObjectType.MISS;
+			hitWorld.rayTrace.typeOfHit = MovingObjectType.BLOCK;
 		}
 	}
 
@@ -252,7 +276,7 @@ public class SegmentWorldClient extends WorldClient implements ISegment {
 	public World getParent() {
 		return parent;
 	}
-
+	
 	public NetHandlerPlayClient getNetHandler() {
 		return netHandler;
 	}
@@ -337,8 +361,6 @@ public class SegmentWorldClient extends WorldClient implements ISegment {
 			body.setWorldTransform(position);
 			body.setLinearVelocity(velocity);
 			body.setAngularVelocity(angularVelocity);
-			
-			int id = getParent().provider.getDimensionId();
 			
 			hadFirstUpdate = true;
 		} else {

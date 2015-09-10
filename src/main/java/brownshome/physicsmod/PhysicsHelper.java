@@ -1,3 +1,4 @@
+
 package brownshome.physicsmod;
 
 import javax.vecmath.Vector3f;
@@ -11,13 +12,10 @@ import com.bulletphysics.collision.dispatch.CollisionDispatcher;
 import com.bulletphysics.collision.dispatch.DefaultCollisionConfiguration;
 import com.bulletphysics.collision.shapes.BoxShape;
 import com.bulletphysics.collision.shapes.CollisionShape;
-import com.bulletphysics.collision.shapes.StaticPlaneShape;
 import com.bulletphysics.dynamics.DiscreteDynamicsWorld;
 import com.bulletphysics.dynamics.DynamicsWorld;
-import com.bulletphysics.dynamics.RigidBody;
 import com.bulletphysics.dynamics.constraintsolver.ConstraintSolver;
 import com.bulletphysics.dynamics.constraintsolver.SequentialImpulseConstraintSolver;
-import com.bulletphysics.linearmath.DefaultMotionState;
 
 public class PhysicsHelper {
 	public static DynamicsWorld createBulletWorld(int dim) {
@@ -27,7 +25,7 @@ public class PhysicsHelper {
 		ConstraintSolver sol = new SequentialImpulseConstraintSolver();
 		
 		DynamicsWorld world = new DiscreteDynamicsWorld(dispatcher, broadphase, sol, collisionConfiguration);
-		world.setGravity(new Vector3f(0f, -9f, 0f));
+		world.setGravity(new Vector3f(0f, 0f, 0f));
 		
 		return world;
 	}

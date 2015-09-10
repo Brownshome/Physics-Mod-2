@@ -1,0 +1,8 @@
+{
+	"parent": "block/orientable",
+	"textures": {
+		"top": "blocks/planks_oak",
+		"front": "physicsmod:blocks/thruster_wood_off",
+		"side": "blocks/planks_oak"
+	}
+}

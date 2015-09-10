@@ -36,7 +36,6 @@ import brownshome.physicsmod.entity.SegmentEntity;
 import brownshome.physicsmod.network.ClientWrapperPacket;
 import brownshome.physicsmod.network.SegmentStatePacket;
 import brownshome.physicsmod.network.ServerWrapperPacket;
-import brownshome.physicsmod.render.SegmentRenderGlobal;
 import brownshome.physicsmod.server.TogglePhysicsCommand;
 import brownshome.physicsmod.storage.ISegment;
 import brownshome.physicsmod.storage.SegmentWorldClient;
@@ -46,7 +45,7 @@ import brownshome.physicsmod.storage.SegmentWorldServer;
 @Mod(modid = PhysicsMod.MODID, version = PhysicsMod.VERSION)
 
 public class PhysicsMod {
-	public static final String MODID = "physicsMod";
+	public static final String MODID = "physicsmod";
 	public static final String VERSION = "0.1";
 
 	public static final int PHYSICS_ENTITY = 0;
@@ -60,7 +59,7 @@ public class PhysicsMod {
 	public static CommonProxy proxy;
 	public static Logger logger = FMLCommonHandler.instance().getFMLLogger();
 	
-	public static final Block THRUSTER = new BlockThruster();
+	public static final Block THRUSTER = new BlockThruster(10.0);
 	
 	@Mod.EventHandler
 	public void init(FMLInitializationEvent event) {
