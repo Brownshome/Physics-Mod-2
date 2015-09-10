@@ -21,6 +21,7 @@ import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.renderer.ViewFrustum;
+import net.minecraft.client.renderer.texture.ITickable;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
@@ -59,7 +60,7 @@ public class SegmentWorldClient extends WorldClient implements ISegment {
 	public static boolean physTick = false;
 	public static boolean link = false;
 	
-	public static void tickSegmentsPre() {
+	public static void rayCast() {
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 		Vec3 eyePos = player.getPositionEyes(1.0f);
 		Vec3 lookVec = player.getLook(1.0f);
@@ -76,7 +77,6 @@ public class SegmentWorldClient extends WorldClient implements ISegment {
 		for(SegmentWorldClient world : getWorlds()) {
 			Vec3 e = world.worldToSeg(eyePos);
 			
-			world.tick();
 			world.rayTrace = world.rayTraceBlocks(world.worldToSeg(eyePos), world.worldToSeg(to), false, false, true);
 			
 			if(world.rayTrace.typeOfHit == MovingObjectType.BLOCK) {
@@ -95,6 +95,19 @@ public class SegmentWorldClient extends WorldClient implements ISegment {
 			Minecraft.getMinecraft().objectMouseOver.typeOfHit = MovingObjectType.MISS;
 			hitWorld.rayTrace.typeOfHit = MovingObjectType.BLOCK;
 		}
+	}
+	
+	static boolean hacked = false;
+	@SuppressWarnings("unchecked")
+	public static void tickSegmentsPre() {
+		if(!hacked) {
+			
+			//a bit of a hack, the renderEngine.tick() just happened to be just where I wanted this to be
+			Minecraft.getMinecraft().renderEngine.listTickables.add((ITickable) SegmentWorldClient::rayCast);
+			hacked = true;
+		}
+		
+		getWorlds().forEach(SegmentWorldClient::tick);
 	}
 
 	public static void tickSegmentsPost() {

@@ -303,7 +303,6 @@ public interface ISegment {
 		Transform t = new Transform();
 		t.setIdentity();
 		t.origin.set(x, y, z);
-		t.basis.rotY((float) Math.PI / 2);
 		
 		RigidBody b = new RigidBody(1f, new DefaultMotionState(t), shape, inertia);
 		b.setSleepingThresholds(0, 0);
